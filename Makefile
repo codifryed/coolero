@@ -2,7 +2,8 @@
 docker_image_tag := v1
 pr := poetry run
 
-.PHONY: run help version debug lint test build build-one-file build-appimage build-clean install \
+.PHONY: run help version debug lint test build build-one-file build-appimage build-clean \
+	flatpak flatpak-build-internal flatpak-export-deps \
 	docker-clean docker-build docker-login docker-push docker-images docker-run \
 	bump release
 
@@ -55,11 +56,22 @@ build-appimage:
 	@.appimage/appimagetool-x86_64.AppImage -n -u "zsync|https://coolero.org/releases/latest/Coolero-x86_64.AppImage.zsync" --comp=xz --sign coolero.dist Coolero-x86_64.AppImage
 
 build-clean:
-	@rm -r build
-	@rm -r dist
+	@rm -r coolero.build
+	@rm -r coolero.dist
 
-#install:
-#	@#.appimage/linuxdeploy-x86_64.AppImage --appdir=coolero.dist --desktop-file=.appimage/coolero.desktop --icon-file=.appimage/coolero.png
+# Flatpak helpers:
+##################
+# for installation see the flatpak submodule
+
+flatpak:
+	@make -C flatpak
+
+flatpak-build-internal:
+	@python3 -c 'from coolero.scripts import build; build()'
+
+flatpak-export-deps:
+	@poetry export -o flatpak/requirements.txt --without-hashes
+
 
 
 # VERSION bumping:
