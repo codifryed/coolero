@@ -29,7 +29,7 @@ optional = true
 embed-resource = "1.6"
 
 [features]
-default = ["build-mode-standalone"]
+default = ["build-mode-pyoxidizer-exe"]
 
 global-allocator-jemalloc = ["jemallocator"]
 global-allocator-mimalloc = ["mimalloc"]
