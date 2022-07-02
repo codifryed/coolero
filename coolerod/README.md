@@ -18,3 +18,29 @@ the server in Rust, and the client (Coolero) in Python.
 
 Rust is the choosen language for the server due to the fact that we wanted the best performance with lowest resource
 cost to have always running in the background, and its natural integration with system libraries and functions.
+
+### To Run:
+
+From `coolerod/` directory:
+
+```shell
+pyoxidizer build
+./build/x86_64-unknown-linux-gnu/debug/install/coolerod
+```
+
+### To Check compatibility:
+
+```shell
+pyoxidizer analyze ./build/x86_64-unknown-linux-gnu/debug/install/coolerod
+ldd ./build/x86_64-unknown-linux-gnu/debug/install/coolerod
+```
+
+### To build a statically linked binary: (WIP)
+
+```shell
+# add musl rust target
+rustup target add x86_64-unknown-linux-musl
+# install musl-gcc
+pacman -S musl
+pyoxidizer build --target-triple x86_64-unknown-linux-musl
+```
