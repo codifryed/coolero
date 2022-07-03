@@ -1,6 +1,9 @@
 #![windows_subsystem = "console"]
 
 use pyembed::{MainPythonInterpreter, OxidizedPythonInterpreterConfig};
+use log::{info, warn, error, set_max_level, LevelFilter};
+use simple_logger::SimpleLogger;
+use systemd_journal_logger::{connected_to_journal, init_with_extra_fields};
 
 // Various cargo features can be defined to install a custom global allocator
 // for Rust.
@@ -34,6 +37,15 @@ static GLOBAL: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 include!(env!("DEFAULT_PYTHON_CONFIG_RS"));
 
 fn main() {
+    if connected_to_journal() {
+        // systemd_journal_logger::init().unwrap();
+        init_with_extra_fields(vec![("VERSION", env!("CARGO_PKG_VERSION"))]).unwrap();
+    } else {
+        SimpleLogger::new().init().unwrap();
+    }
+    set_max_level(LevelFilter::Info);
+    info!("CooleroD initializing...");
+
     // The following code is in a block so the MainPythonInterpreter is destroyed in an
     // orderly manner, before process exit.
     let exit_code = {
