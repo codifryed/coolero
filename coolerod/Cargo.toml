@@ -1,11 +1,9 @@
 [package]
 name = "coolerod"
 version = "0.1.0"
-# The license for the project boilerplate is public domain.
-# Feel free to change the license if you make modifications.
-license = "CC-PDDC"
+license = "GPLv3"
 build = "build.rs"
-edition = "2021"
+edition = "2022"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
